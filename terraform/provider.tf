@@ -1,18 +1,13 @@
 
-variable "compartment_ocid" {
-}
-variable "tenancy_ocid" {
-}
-variable "region" {
-}
-variable "availability_domain_name" {
-}
-variable "user_ocid" {
-}
-variable "fingerprint" {
-}
-variable "private_key_path" {
-}
+variable "compartment_ocid" { }
+variable "tenancy_ocid" { }
+variable "region" { }
+variable "availability_domain_name" { }
+variable "user_ocid" { }
+variable "fingerprint" { }
+variable "private_key_path" { }
+variable "opc_private_key_path" { }
+variable "ssh_public_key" { }
 
 
 provider "oci" {
