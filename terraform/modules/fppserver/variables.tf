@@ -16,6 +16,8 @@ variable "compartment_id" {}
 variable "subnet_id" {}
 variable "ssh_public_key" {}
 variable "opc_private_key_path" {}
+variable "subnet_cidr" {}
+variable "vcn_cidr" {}
 
 
 variable "system_count" {
@@ -82,12 +84,14 @@ variable "license_model" {
   default = "BRING_YOUR_OWN_LICENSE"
 }
 
-variable "gns_ip" {
-  default = "10.0.0.101"
+variable "gns_ip_offset" {
+  # not allowed directly: default = cidrhost(var.subnet_cidr, 100)
+  default = 100
 }
 
-variable "ha_vip" {
-  default = "10.0.0.102"
+variable "ha_vip_offset" {
+  # not allowed directly: default = cidrhost(var.subnet_cidr, 101)
+  default = 101
 }
 
 variable "fppserver_display_name" {

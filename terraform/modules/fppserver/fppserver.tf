@@ -19,8 +19,8 @@ data "template_file" "fpp_setup" {
   template = file("${path.module}/scripts/03_fpp_setup.sh")
 
   vars = {
-    gns_ip         = var.gns_ip,
-    ha_vip         = var.ha_vip
+    gns_ip         = cidrhost(var.subnet_cidr, var.gns_ip_offset)
+    ha_vip         = cidrhost(var.subnet_cidr, var.ha_vip_offset)
   }
 
 }

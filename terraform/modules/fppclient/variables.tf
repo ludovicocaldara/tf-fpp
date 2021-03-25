@@ -1,15 +1,13 @@
-/*
-********************
-# Copyright (c) 2021 Oracle and/or its affiliates. All rights reserved.
-********************
-*/
-
-
+# ----------------------------------------------------
+#
+# ----------------------------------------------------
 variable "availability_domain" {}
 variable "compartment_id" {}
 variable "subnet_id" {}
 variable "ssh_public_key" {}
 variable "opc_private_key_path" {}
+variable "vcn_cidr" {}
+variable "subnet_cidr" {}
 
 
 variable "vm_user" {

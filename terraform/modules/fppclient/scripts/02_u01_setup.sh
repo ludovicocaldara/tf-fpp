@@ -13,7 +13,7 @@ systemctl disable firewalld
 sed -i /^PasswordAuthentication/d /etc/ssh/sshd_config
 cat <<EOF >> /etc/ssh/sshd_config
 PasswordAuthentication no
-Match address 10.0.0.0/24
+Match address ${vcn_cidr}
     PasswordAuthentication yes
 EOF
 systemctl reload sshd

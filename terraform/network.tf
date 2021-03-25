@@ -1,12 +1,9 @@
-/*
-********************
-# Copyright (c) 2021 Oracle and/or its affiliates. All rights reserved.
-********************
-*/
-
+# -----------------------------------------------
+# Setup the VCN.
+# -----------------------------------------------
 resource "oci_core_vcn" "fppll" {
   count          = var.vcn_use_existing ? 0 : 1
-  cidr_block     = "10.0.0.0/16"
+  cidr_block     = var.vcn_cidr
   dns_label      = "fpplivelab"
   compartment_id = var.compartment_ocid
   display_name   = "fppll-net-${local.timestamp}"
@@ -17,6 +14,9 @@ resource "oci_core_vcn" "fppll" {
   }
 }
 
+# -----------------------------------------------
+# Setup the Internet Gateway
+# -----------------------------------------------
 resource "oci_core_internet_gateway" "fppll-internet-gateway" {
   count          = var.vcn_use_existing ? 0 : 1
   compartment_id = var.compartment_ocid
@@ -25,6 +25,9 @@ resource "oci_core_internet_gateway" "fppll-internet-gateway" {
   vcn_id         = oci_core_vcn.fppll[0].id
 }
 
+# -----------------------------------------------
+# Setup the Route Table
+# -----------------------------------------------
 resource "oci_core_route_table" "fppll-public-rt" {
   count          = var.vcn_use_existing ? 0 : 1
   display_name   = "fppll Route Table"
@@ -38,18 +41,29 @@ resource "oci_core_route_table" "fppll-public-rt" {
   }
 }
 
+# -----------------------------------------------
+# Setup the Security List
+# -----------------------------------------------
 resource "oci_core_security_list" "fppll-security-list" {
   count          = var.vcn_use_existing ? 0 : 1
   display_name   = "fppll Security List"
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.fppll[0].id
 
+  # -------------------------------------------
+  # Egress: Allow everything
+  # -------------------------------------------
   egress_security_rules {
     destination = "0.0.0.0/0"
     protocol    = "all"
   }
 
-  // protocol 6: TCP
+
+  # -------------------------------------------
+  # Ingress protocol 6: TCP
+  # -------------------------------------------
+
+  # Allow SSH from everywhere
   ingress_security_rules {
     protocol = "6"
     source   = "0.0.0.0/0"
@@ -58,24 +72,33 @@ resource "oci_core_security_list" "fppll-security-list" {
       max = 22
     }
   }
+
+  # Allow FFP ports range in the VCN
+  # Ports 8894 and 8896 are for HTTPS and JMX
+  # 8900 will be configured for the listener port 
+  # 8901-8906 will be configured for the ractrans image transfer
   ingress_security_rules {
     protocol = "6"
-    source   = "0.0.0.0/0"
+    source   = var.vcn_cidr
     tcp_options {
       min = 8894
       max = 8906
     }
   }
+
+  # Allow SQL*Net communication within the VCN only
   ingress_security_rules {
     protocol = "6"
-    source   = "0.0.0.0/0"
+    source   = var.vcn_cidr
     tcp_options {
       min = 1521
       max = 1531
     }
   }
 
-  // protocol 1: ICMP
+  # ------------------------------------------
+  # protocol 1: ICMP: allow explicitly from subnet and everywhere
+  # ------------------------------------------
   ingress_security_rules {
     protocol = 1
     source   = "0.0.0.0/0"
@@ -83,19 +106,31 @@ resource "oci_core_security_list" "fppll-security-list" {
 
   ingress_security_rules {
     protocol = 1
-    source   = "10.0.0.0/16"
+    source   = var.subnet_cidr
   }
+
+
+  # ------------------------------------------
+  # protocol 17: UCP
+  # ------------------------------------------
+
+  # Allow GNS port within the VCN
   ingress_security_rules {
     protocol = 17
-    source   = "10.0.0.0/16"
+    source   = var.vcn_cidr
     udp_options {
       min = 53
       max = 53
     }
   }
+
+  # Allow NFS traffic within the VCN
+  # (Note: NFS is not a requirement anymore for FPP
+  #   unless you use remote image import from clients.
+  #   This will be removed as well in the next RU.)
   ingress_security_rules {
     protocol = 17
-    source   = "10.0.0.0/16"
+    source   = var.vcn_cidr
     udp_options {
       min = 111
       max = 111
@@ -103,7 +138,7 @@ resource "oci_core_security_list" "fppll-security-list" {
   }
   ingress_security_rules {
     protocol = 17
-    source   = "10.0.0.0/16"
+    source   = var.vcn_cidr
     udp_options {
       min = 2049
       max = 2049
@@ -112,6 +147,9 @@ resource "oci_core_security_list" "fppll-security-list" {
 }
 
 
+# ---------------------------------------------
+# Setup the Security Group
+# ---------------------------------------------
 resource "oci_core_network_security_group" "fppll-network-security-group" {
   count          = var.vcn_use_existing ? 0 : 1
   compartment_id = var.compartment_ocid
@@ -119,9 +157,12 @@ resource "oci_core_network_security_group" "fppll-network-security-group" {
   display_name   = "fppll network security group"
 }
 
+# ---------------------------------------------
+# Setup the subnet
+# ---------------------------------------------
 resource "oci_core_subnet" "public-subnet-fppll" {
   count             = var.vcn_use_existing ? 0 : 1
-  cidr_block        = "10.0.0.0/24"
+  cidr_block        = var.subnet_cidr
   display_name      = "fppll Public Subnet"
   dns_label         = "pub"
   compartment_id    = var.compartment_ocid

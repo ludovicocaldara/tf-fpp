@@ -1,13 +1,6 @@
-/*
-********************
-# Copyright (c) 2021 Oracle and/or its affiliates. All rights reserved.
-********************
-*/
-
-
-
-###################################################
+# ---------------------------------------------------------
 # declaration of the templates scripts for FPP setup
+# ---------------------------------------------------------
 data "template_file" "repo_setup" {
   template = file("${path.module}/scripts/01_repo_setup.sh")
 }
@@ -20,6 +13,7 @@ data "template_file" "u01_setup" {
 	ipv4            = data.oci_core_volume_attachments.fppc_disk_device.volume_attachments[0].ipv4
 	iqn             = data.oci_core_volume_attachments.fppc_disk_device.volume_attachments[0].iqn
 	port            = data.oci_core_volume_attachments.fppc_disk_device.volume_attachments[0].port
+	vcn_cidr        = var.vcn_cidr
   }
 }
 
@@ -42,8 +36,9 @@ locals {
 
 
 
-#################################
+# ---------------------------------------------------------
 # Data: last image build for 7.8
+# ---------------------------------------------------------
 data "oci_core_images" "vm_images" {
     compartment_id             = var.compartment_id
     operating_system           = "Oracle Linux"
@@ -53,10 +48,11 @@ data "oci_core_images" "vm_images" {
 }
 
 
-###########################
+# ---------------------------------------------------------
 # data: attached volumes
 # it requires the creation of the attachment first.
 # it's used to get the variables for the setup script that partitions the volume for the creation of /u01 and the asmdisk
+# ---------------------------------------------------------
 data "oci_core_volume_attachments" "fppc_disk_device" {
     depends_on = [oci_core_instance.fppc_vm, oci_core_volume_attachment.fppc_volume_attachment, oci_core_volume.fppc_disk]
 
@@ -66,8 +62,9 @@ data "oci_core_volume_attachments" "fppc_disk_device" {
 }
 
 
-###########################
+# ---------------------------------------------------------
 # instance creation
+# ---------------------------------------------------------
 resource "oci_core_instance" "fppc_vm" {
     availability_domain = var.availability_domain
     compartment_id      = var.compartment_id
@@ -98,8 +95,9 @@ resource "oci_core_instance" "fppc_vm" {
     } 
 }
 
-##########################
+# ---------------------------------------------------------
 # block volume creation for u01
+# ---------------------------------------------------------
 resource "oci_core_volume" "fppc_disk" {
     # volume 0 for u01, volume 1 for ASM
     count=2
@@ -109,8 +107,9 @@ resource "oci_core_volume" "fppc_disk" {
     size_in_gbs = var.fppc_disk_size
 }
 
-##########################
+# ---------------------------------------------------------
 # attachment of the volume to the instance
+# ---------------------------------------------------------
 resource "oci_core_volume_attachment" "fppc_volume_attachment" {
     count=2
     attachment_type = "iscsi"
