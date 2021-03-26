@@ -1,10 +1,3 @@
-/*
-********************
-# Copyright (c) 2021 Oracle and/or its affiliates. All rights reserved.
-********************
-*/
-
-
 ###################################################
 # declaration of the templates scripts for FPP setup
 data "template_file" "repo_setup" {

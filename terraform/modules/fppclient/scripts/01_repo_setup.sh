@@ -1,5 +1,13 @@
 #!/bin/bash
 
+#########################################
+# This script:
+# * Sets up the EPEL repo
+# * Install some required packages
+# * Stops and disable the firewall
+
+###########################
+# Setup the EPEL repo
 regionId=$(curl -s http://169.254.169.254/opc/v1/instance/ | grep regionIdentifier | awk -F: '{print $2}' | awk -F'"' '{print $2}')
 
 wget https://swiftobjectstorage.$regionId.oraclecloud.com/v1/dbaaspatchstore/DBaaSOSPatches/oci_dbaas_ol7repo -O /tmp/oci_dbaas_ol7repo
@@ -18,6 +26,14 @@ enabled=1
 EOF
 
 yum repolist
+
+###########################
+# install git, rlwrap and the database preinstall package
 yum install -y git rlwrap oracle-database-preinstall-19c.x86_64
 
+
+###########################
+# stop the firewall.
+# compute OL7.8 uses firewalld, not iptables
 systemctl stop firewalld
+systemctl disable firewalld
