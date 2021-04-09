@@ -10,42 +10,19 @@
 # ----------------------------------
 # Tenancy information
 # ----------------------------------
-variable "ociCompartmentOcid" {
+variable "compartment_ocid" {
   description = "Your compartment OCID, eg: \"ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
 }
-variable "ociTenancyOcid" { 
+variable "tenancy_ocid" { 
   description = "Your tenancy OCID, eg: \"ocid1.tenancy.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
 }
-variable "ociRegionIdentifier" { 
+variable "region" { 
   description = "Your region, eg: \"uk-london-1\""
 }
 variable "availability_domain_name" { 
   description = "Your availability domain, eg: \"OUGC:UK-LONDON-1-AD-1\""
 }
 
-# ----------------------------------
-# OCI User information for API access
-# ----------------------------------
-variable "ociUserOcid" { 
-  description = "Your compartment OCID, eg: \"ocid1.user.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
-}
-variable "fingerprint" { 
-  description = "Your user fingerprint, eg: \"de:ad:be:ef:de:ad:be:ef:de:ad:be:ef:de:ad:be:ef\""
-}
-variable "private_key_path" { 
-  description = "Path to your PEM key for OCI APIs, eg: \"~/.ssh/oci.pem\""
-}
-
-
-# ----------------------------------
-# SSH keys for opc remote access
-#
-# Because the terraform code requires to connect via ssh to perform some setups,
-# both private and public keys are required.
-# People cloning from git for their paid tenancy can provide these two variables
-# in override.tf.
-
-# ----------------------------------
 variable "ssh_private_key" { 
   description = "Private SSH key string corresponding to the ssh_public_key. e.g. \"-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEAu5x2wLr2oH06VQqpkCih8a+g3njxoXu/GZ0pIWWPh2tmbK8B\nIQI0uG3NXt7l46JZEku0UoF1q+N4xMuRL1iSMFPpZhXiuP2igiu9Kh+RGPYXkhJl[...]-----END RSA PRIVATE KEY-----\n\""
 
@@ -64,14 +41,8 @@ variable "resId" {
   default = "LL000"
 }
 
-variable "ociUserPassword" {
-  description = "Not sure how this is specified/used..."
-  default = ""
-}
-
 variable "resUserPublicKey" {
   description = "LiveLab users will upload their public SSH key, this is what will be used to give them access as opc."
-  default = ""
 }
 
 
@@ -79,9 +50,6 @@ variable "resUserPublicKey" {
 # Setup the OCI provider...
 # -------------------------
 provider "oci" {
-  tenancy_ocid = var.ociTenancyOcid
-  user_ocid = var.ociUserOcid
-  private_key_path = var.private_key_path
-  fingerprint = var.fingerprint
-  region = var.ociRegionIdentifier
+  tenancy_ocid = var.tenancy_ocid
+  region = var.region
 }
