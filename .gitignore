@@ -40,3 +40,6 @@ terraform.rc
 
 # file with keys specific for resource manager livelab deployment
 resmgr.tf
+
+# everything nogit
+*.nogit
