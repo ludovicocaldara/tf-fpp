@@ -23,15 +23,6 @@ variable "availability_domain_name" {
   description = "Your availability domain, eg: \"OUGC:UK-LONDON-1-AD-1\""
 }
 
-variable "ssh_private_key" { 
-  description = "Private SSH key string corresponding to the ssh_public_key. e.g. \"-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEAu5x2wLr2oH06VQqpkCih8a+g3njxoXu/GZ0pIWWPh2tmbK8B\nIQI0uG3NXt7l46JZEku0UoF1q+N4xMuRL1iSMFPpZhXiuP2igiu9Kh+RGPYXkhJl[...]-----END RSA PRIVATE KEY-----\n\""
-
-}
-variable "ssh_public_key" { 
-  description = "Public SSH key string corresponding to the private \"opc_private_key_path\" private key. e.g. \"ssh-rsa AAAAAAAAAA...longlongstring..AAAAAAAAAA\""
-}
-
-
 # ---------------------------------
 # LiveLab specific:
 # ---------------------------------

@@ -31,9 +31,9 @@ variableGroups:
   - title: Tenancy Configuration
     visible: false
     variables:
-    - ociCompartmentOcid
-    - ociTenancyOcid
-    - ociRegionIdentifier
+    - compartment_ocid
+    - tenancy_ocid
+    - region
 
   - title: Main Configuration - Required
     visible: true
@@ -42,7 +42,7 @@ variableGroups:
     - resUserPublicKey
 
 variables:
-  ociCompartmentOcid:
+  compartment_ocid:
     type: oci:identity:compartment:id
     required: true
     title: Compartment
@@ -54,7 +54,7 @@ variables:
     required: true
     description: "All instances will be provisioned in this availability domain"
     dependsOn:
-      compartmentId: ${ociCompartmentOcid}
+      compartmentId: ${compartment_ocid}
 
   resUserPublicKey:
     type: text
@@ -62,7 +62,7 @@ variables:
     title: "SSH Public Key"
     description: "Public SSH key for accessing the nodes over SSH as user opc"
 
-  ociRegionIdentifier:
+  region:
     type: oci:identity:region:name
     required: true
     title: Region
@@ -113,6 +113,10 @@ variables:
     required: false
     visible: false
 
+  subnet_public_existing:
+    type: string
+    required: false
+    visible: false
 
 outputs:
   fppserver:
