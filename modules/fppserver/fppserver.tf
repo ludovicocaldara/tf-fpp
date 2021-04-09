@@ -62,7 +62,7 @@ resource "oci_database_db_system" "fppll_db_system" {
     }
 
     db_version   = var.db_version
-    display_name = "db19_oci1"
+    display_name = "fppll-fppsdbsys-${var.resId}"
   }
 
   db_system_options {
@@ -73,7 +73,7 @@ resource "oci_database_db_system" "fppll_db_system" {
   shape                   = var.db_system_shape
   subnet_id               = var.subnet_id
   ssh_public_keys         = [var.ssh_public_key]
-  display_name            = var.fppserver_display_name
+  display_name            = "${var.fppserver_display_name}-${var.resId}"
   hostname                = "${var.fppserver_prefix}${format("%02d", count.index + 1)}"
   data_storage_size_in_gb = var.data_storage_size_in_gb
   license_model           = var.license_model

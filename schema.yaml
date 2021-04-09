@@ -1,0 +1,84 @@
+# Title shown in Application Information tab.
+title: Fleet Patching and Provisioning Workshop
+# Sub Title shown in Application Information tab.
+description: Fleet Patching and Provisioning Workshop
+stackDescription: "Deploy an FPP Server and FPP Target ready to execute the FPP workshop"
+schemaVersion: 1.1.0
+version: "20210409"
+locale: "en"
+
+# URL of Logo Icon used on Application Information tab. Logo must be 130x130 pixels.
+# (Optional)
+logoUrl: "https://cloudmarketplace.oracle.com/marketplace/content?contentId=80556488"
+# Used in Application Information tab to Hyperlink Title and Logo to the Marketplace
+# Listing.
+# Also used to link to Listing Usage section for "View Instructions".
+# (Optional) If it is missing, Application Information uses the
+# "marketplace-listing-id" tag for the same purpose.
+source:
+  type: image
+#  reference: 82618540
+#https://cloudmarketplace.oracle.com/marketplace/listing/82618540
+
+
+outputGroups:
+  - title: Access Information for FPP Server and Target
+    outputs:
+      - ${fppserver}
+      - ${fppclient}
+
+variableGroups:
+  - title: Tenancy Configuration
+    visible: false
+    variables:
+    - ociCompartmentOcid
+    - ociTenancyOcid
+    - ociRegionIdentifier
+
+  - title: Main Configuration - Required
+    visible: true
+    variables:
+    - availability_domain_name
+    - resUserPublicKey
+
+variables:
+  ociCompartmentOcid:
+    type: oci:identity:compartment:id
+    required: true
+    title: Compartment
+    description: "Compartment where you want to create the FPP target and server"
+
+  availability_domain_name:
+    type: oci:identity:availabilitydomain:name
+    title: "Select an availability domain"
+    required: true
+    description: "All instances will be provisioned in this availability domain"
+    dependsOn:
+      compartmentId: ${ociCompartmentOcid}
+
+  resUserPublicKey:
+    type: text
+    required: true
+    title: "SSH Public Key"
+    description: "Public SSH key for accessing the nodes over SSH as user opc"
+
+  ociRegionIdentifier:
+    type: oci:identity:region:name
+    required: true
+    title: Region
+    description: Region where you want to deploy the resources defined by this stack
+
+outputs:
+  fppserver:
+    type: string
+    title: FPP Server
+    displayText: FPP Server Name and public IP
+    visible: true
+
+  fppclient:
+    type: string
+    title: FPP Target
+    displayText: FPP Target Name and public IP
+    visible: true
+
+#primaryOutputButton: ${rac_node_hostnames}

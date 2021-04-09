@@ -4,9 +4,9 @@
 resource "oci_core_vcn" "fppll" {
   count          = var.vcn_use_existing ? 0 : 1
   cidr_block     = var.vcn_cidr
-  dns_label      = "fpplivelab"
-  compartment_id = var.compartment_ocid
-  display_name   = "fppll-net-${local.timestamp}"
+  dns_label      = "fppllvcn${var.resId}"
+  compartment_id = var.ociCompartmentOcid
+  display_name   = "fppll-vcn-${var.resId}"
   lifecycle {
     ignore_changes = [
       display_name,
@@ -19,8 +19,8 @@ resource "oci_core_vcn" "fppll" {
 # -----------------------------------------------
 resource "oci_core_internet_gateway" "fppll-internet-gateway" {
   count          = var.vcn_use_existing ? 0 : 1
-  compartment_id = var.compartment_ocid
-  display_name   = "fppll Internet Gateway"
+  compartment_id = var.ociCompartmentOcid
+  display_name   = "fppll-igw-${var.resId}"
   enabled        = "true"
   vcn_id         = oci_core_vcn.fppll[0].id
 }
@@ -30,8 +30,8 @@ resource "oci_core_internet_gateway" "fppll-internet-gateway" {
 # -----------------------------------------------
 resource "oci_core_route_table" "fppll-public-rt" {
   count          = var.vcn_use_existing ? 0 : 1
-  display_name   = "fppll Route Table"
-  compartment_id = var.compartment_ocid
+  display_name   = "fppll-route-${var.resId}"
+  compartment_id = var.ociCompartmentOcid
   vcn_id         = oci_core_vcn.fppll[0].id
 
   route_rules {
@@ -46,8 +46,8 @@ resource "oci_core_route_table" "fppll-public-rt" {
 # -----------------------------------------------
 resource "oci_core_security_list" "fppll-security-list" {
   count          = var.vcn_use_existing ? 0 : 1
-  display_name   = "fppll Security List"
-  compartment_id = var.compartment_ocid
+  display_name   = "fppll-seclist-${var.resId}"
+  compartment_id = var.ociCompartmentOcid
   vcn_id         = oci_core_vcn.fppll[0].id
 
   # -------------------------------------------
@@ -152,9 +152,9 @@ resource "oci_core_security_list" "fppll-security-list" {
 # ---------------------------------------------
 resource "oci_core_network_security_group" "fppll-network-security-group" {
   count          = var.vcn_use_existing ? 0 : 1
-  compartment_id = var.compartment_ocid
+  compartment_id = var.ociCompartmentOcid
   vcn_id         = oci_core_vcn.fppll[0].id
-  display_name   = "fppll network security group"
+  display_name   = "fppll-nsg-${var.resId}"
 }
 
 # ---------------------------------------------
@@ -163,9 +163,9 @@ resource "oci_core_network_security_group" "fppll-network-security-group" {
 resource "oci_core_subnet" "public-subnet-fppll" {
   count             = var.vcn_use_existing ? 0 : 1
   cidr_block        = var.subnet_cidr
-  display_name      = "fppll Public Subnet"
-  dns_label         = "pub"
-  compartment_id    = var.compartment_ocid
+  display_name      = "fppll-pubsubnet-${var.resId}"
+  dns_label         = "pub${var.resId}"
+  compartment_id    = var.ociCompartmentOcid
   vcn_id            = oci_core_vcn.fppll[0].id
   route_table_id    = oci_core_route_table.fppll-public-rt[0].id
   security_list_ids = [oci_core_security_list.fppll-security-list[0].id]

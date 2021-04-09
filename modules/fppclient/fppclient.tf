@@ -89,7 +89,7 @@ resource "oci_core_instance" "fppc_vm" {
     availability_domain = var.availability_domain
     compartment_id      = var.compartment_id
     shape               = var.vm_shape
-    display_name        = var.fppc_name
+    display_name        = "${var.fppc_name}-${var.resId}"
 
     source_details {
         source_id = data.oci_core_images.vm_images.images[0].id
@@ -105,7 +105,7 @@ resource "oci_core_instance" "fppc_vm" {
     create_vnic_details {
         assign_public_ip = true
         subnet_id               = var.subnet_id
-        display_name            = "${var.fppc_name}-public-vnic"
+        display_name            = "${var.fppc_name}-vnic-${var.resId}"
         hostname_label          = var.fppc_name
     }
 
@@ -128,7 +128,7 @@ resource "oci_core_volume" "fppc_disk" {
     count=2
     availability_domain = var.availability_domain
     compartment_id      = var.compartment_id
-    display_name = format("%s-disk%02d",var.fppc_name, count.index+1)
+    display_name = format("%s-disk%02d-%s",var.fppc_name, count.index+1, var.resId)
     size_in_gbs = var.fppc_disk_size
 }
 

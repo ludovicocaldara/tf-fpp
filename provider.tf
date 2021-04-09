@@ -3,20 +3,30 @@
 # 
 # If you fork from github, copy this file to "override.tf"
 # so that your variables are not versioned publicly :-)
+# override.tf is skipped by the .gitignore file
 # ------------------------------------------------------------------------
-variable "compartment_ocid" {
+
+
+# ----------------------------------
+# Tenancy information
+# ----------------------------------
+variable "ociCompartmentOcid" {
   description = "Your compartment OCID, eg: \"ocid1.compartment.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
 }
-variable "tenancy_ocid" { 
+variable "ociTenancyOcid" { 
   description = "Your tenancy OCID, eg: \"ocid1.tenancy.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
 }
-variable "region" { 
+variable "ociRegionIdentifier" { 
   description = "Your region, eg: \"uk-london-1\""
 }
 variable "availability_domain_name" { 
   description = "Your availability domain, eg: \"OUGC:UK-LONDON-1-AD-1\""
 }
-variable "user_ocid" { 
+
+# ----------------------------------
+# OCI User information for API access
+# ----------------------------------
+variable "ociUserOcid" { 
   description = "Your compartment OCID, eg: \"ocid1.user.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
 }
 variable "fingerprint" { 
@@ -25,6 +35,17 @@ variable "fingerprint" {
 variable "private_key_path" { 
   description = "Path to your PEM key for OCI APIs, eg: \"~/.ssh/oci.pem\""
 }
+
+
+# ----------------------------------
+# SSH keys for opc remote access
+#
+# Because the terraform code requires to connect via ssh to perform some setups,
+# both private and public keys are required.
+# People cloning from git for their paid tenancy can provide these two variables
+# in override.tf.
+
+# ----------------------------------
 variable "opc_private_key_path" { 
   description = "Path to your private SSH key for the SSH connections as opc, eg: \"~/.ssh/id_rsa\""
 }
@@ -33,13 +54,33 @@ variable "ssh_public_key" {
 }
 
 
+# ---------------------------------
+# LiveLab specific:
+# ---------------------------------
+
+variable "resId" {
+  description = "Reservations in livelab have a specific identifier. The green button will override this variable with that identifier."
+  default = "LL000"
+}
+
+variable "ociUserPassword" {
+  description = "Not sure how this is specified/used..."
+  default = ""
+}
+
+variable "resUserPublicKey" {
+  description = "LiveLab users will upload their public SSH key, this is what will be used to give them access as opc."
+  default = ""
+}
+
+
 # -------------------------
 # Setup the OCI provider...
 # -------------------------
 provider "oci" {
-  tenancy_ocid = var.tenancy_ocid
-  user_ocid = var.user_ocid
+  tenancy_ocid = var.ociTenancyOcid
+  user_ocid = var.ociUserOcid
   private_key_path = var.private_key_path
   fingerprint = var.fingerprint
-  region = var.region
+  region = var.ociRegionIdentifier
 }

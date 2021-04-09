@@ -8,6 +8,7 @@ variable "ssh_public_key" {}
 variable "opc_private_key_path" {}
 variable "vcn_cidr" {}
 variable "subnet_cidr" {}
+variable "resId" {}
 
 
 # ----------------------------------------------------

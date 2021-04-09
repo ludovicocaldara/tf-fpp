@@ -60,12 +60,13 @@ locals {
 module "fppclient" {
   source                = "./modules/fppclient"
   availability_domain   = var.availability_domain_name
-  compartment_id        = var.compartment_ocid
+  compartment_id        = var.ociCompartmentOcid
   subnet_id             = local.public_subnet_id
   ssh_public_key        = var.ssh_public_key
   opc_private_key_path  = var.opc_private_key_path
   subnet_cidr           = var.subnet_cidr
   vcn_cidr              = var.vcn_cidr
+  resId                 = var.resId
 }
 
 # -----------------------------------------------------
@@ -78,10 +79,11 @@ module "fppserver" {
   source                = "./modules/fppserver"
   nsg_ids               = [oci_core_network_security_group.fppll-network-security-group[0].id]
   availability_domain   = var.availability_domain_name
-  compartment_id        = var.compartment_ocid
+  compartment_id        = var.ociCompartmentOcid
   subnet_id             = local.public_subnet_id
   ssh_public_key        = var.ssh_public_key
   opc_private_key_path  = var.opc_private_key_path
   subnet_cidr           = var.subnet_cidr
   vcn_cidr              = var.vcn_cidr
+  resId                 = var.resId
 }
