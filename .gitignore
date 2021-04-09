@@ -38,3 +38,5 @@ override.tf.json
 terraform.rc
 
 
+# file with keys specific for resource manager livelab deployment
+resmgr.tf

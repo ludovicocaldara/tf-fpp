@@ -63,7 +63,7 @@ module "fppclient" {
   compartment_id        = var.ociCompartmentOcid
   subnet_id             = local.public_subnet_id
   ssh_public_key        = var.ssh_public_key
-  opc_private_key_path  = var.opc_private_key_path
+  ssh_private_key       = var.ssh_private_key
   subnet_cidr           = var.subnet_cidr
   vcn_cidr              = var.vcn_cidr
   resId                 = var.resId
@@ -82,7 +82,7 @@ module "fppserver" {
   compartment_id        = var.ociCompartmentOcid
   subnet_id             = local.public_subnet_id
   ssh_public_key        = var.ssh_public_key
-  opc_private_key_path  = var.opc_private_key_path
+  ssh_private_key        = var.ssh_private_key
   subnet_cidr           = var.subnet_cidr
   vcn_cidr              = var.vcn_cidr
   resId                 = var.resId

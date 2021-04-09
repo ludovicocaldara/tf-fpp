@@ -116,7 +116,7 @@ resource "oci_core_instance" "fppc_vm" {
     # ---------------------------------------------------------
     metadata = {
         ssh_authorized_keys = var.ssh_public_key
-	user_data = base64encode(file("../scripts/bootstrap.sh"))
+	user_data = base64encode(file("${path.module}/scripts/bootstrap.sh"))
     } 
 }
 
@@ -168,7 +168,7 @@ resource "null_resource" "fppc_setup" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
 
     }
   }
@@ -181,7 +181,7 @@ resource "null_resource" "fppc_setup" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
 
     }
   }
@@ -193,7 +193,7 @@ resource "null_resource" "fppc_setup" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
     }
 
     inline = [
@@ -224,7 +224,7 @@ resource "null_resource" "fppc_asm_setup" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
 
     }
   }
@@ -236,7 +236,7 @@ resource "null_resource" "fppc_asm_setup" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
     }
 
     inline = [

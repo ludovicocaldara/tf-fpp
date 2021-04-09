@@ -99,7 +99,7 @@ resource "null_resource" "fpp_provisioner" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
 
     }
   }
@@ -112,7 +112,7 @@ resource "null_resource" "fpp_provisioner" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
 
     }
   }
@@ -125,7 +125,7 @@ resource "null_resource" "fpp_provisioner" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
 
     }
   }
@@ -137,7 +137,7 @@ resource "null_resource" "fpp_provisioner" {
       agent       = false
       timeout     = "30m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
     }
    
     inline = [
@@ -164,7 +164,7 @@ resource "null_resource" "dhclient_resolv_setup" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
 
     }
   }
@@ -177,7 +177,7 @@ resource "null_resource" "dhclient_resolv_setup" {
       agent       = false
       timeout     = "5m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
 
     }
   }
@@ -188,7 +188,7 @@ resource "null_resource" "dhclient_resolv_setup" {
       agent       = false
       timeout     = "1m"
       user        = var.vm_user
-      private_key = file(var.opc_private_key_path)
+      private_key = var.ssh_private_key
     }
    
     inline = [

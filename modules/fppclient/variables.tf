@@ -5,7 +5,7 @@ variable "availability_domain" {}
 variable "compartment_id" {}
 variable "subnet_id" {}
 variable "ssh_public_key" {}
-variable "opc_private_key_path" {}
+variable "ssh_private_key" {}
 variable "vcn_cidr" {}
 variable "subnet_cidr" {}
 variable "resId" {}
