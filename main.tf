@@ -67,6 +67,7 @@ module "fppclient" {
   subnet_cidr           = var.subnet_cidr
   vcn_cidr              = var.vcn_cidr
   resId                 = var.resId
+  resUserPublicKey      = var.resUserPublicKey
 }
 
 # -----------------------------------------------------
@@ -86,4 +87,5 @@ module "fppserver" {
   subnet_cidr           = var.subnet_cidr
   vcn_cidr              = var.vcn_cidr
   resId                 = var.resId
+  resUserPublicKey      = var.resUserPublicKey
 }

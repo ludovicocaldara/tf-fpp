@@ -115,7 +115,8 @@ resource "oci_core_instance" "fppc_vm" {
     # but it can do other nice things such as configuring secondary VNICs if added
     # ---------------------------------------------------------
     metadata = {
-        ssh_authorized_keys = var.ssh_public_key
+        # according to the doc: public key entries separated by newline
+        ssh_authorized_keys = "${var.ssh_public_key}\n${var.resUserPublicKey}"
 	user_data = base64encode(file("${path.module}/scripts/bootstrap.sh"))
     } 
 }

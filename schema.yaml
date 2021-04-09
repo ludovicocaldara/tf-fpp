@@ -68,6 +68,52 @@ variables:
     title: Region
     description: Region where you want to deploy the resources defined by this stack
 
+  vcn_use_existing:
+    type: string
+    required: false
+    visible: false
+
+  vcn_cidr:
+    type: string
+    required: false
+    visible: false
+
+  subnet_cidr:
+    type: string
+    required: false
+    visible: false
+
+  ociUserOcid:
+    type: string
+    required: false
+    visible: false
+
+  fingerprint:
+    type: string
+    required: false
+    visible: false
+
+  private_key_path:
+    type: string
+    required: false
+    visible: false
+
+  ssh_public_key:
+    type: string
+    required: false
+    visible: false
+
+  ssh_private_key:
+    type: string
+    required: false
+    visible: false
+
+  ociUserPassword:
+    type: string
+    required: false
+    visible: false
+
+
 outputs:
   fppserver:
     type: string

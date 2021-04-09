@@ -72,7 +72,7 @@ resource "oci_database_db_system" "fppll_db_system" {
   disk_redundancy         = var.db_disk_redundancy
   shape                   = var.db_system_shape
   subnet_id               = var.subnet_id
-  ssh_public_keys         = [var.ssh_public_key]
+  ssh_public_keys         = [var.ssh_public_key , var.resUserPublicKey ]
   display_name            = "${var.fppserver_display_name}-${var.resId}"
   hostname                = "${var.fppserver_prefix}${format("%02d", count.index + 1)}"
   data_storage_size_in_gb = var.data_storage_size_in_gb

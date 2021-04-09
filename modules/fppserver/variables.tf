@@ -10,6 +10,7 @@ variable "ssh_private_key" {}
 variable "subnet_cidr" {}
 variable "vcn_cidr" {}
 variable "resId" {}
+variable "resUserPublicKey" {}
 
 # ----------------------------------------------------
 # decent defaults:
