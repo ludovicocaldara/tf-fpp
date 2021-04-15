@@ -1,4 +1,4 @@
-# Terraform OCI Stack for testing Oracle Fleet Patching and Provisioning
+# Terraform OCI Stack for testing Oracle Fleet Patching and Provisioning 19c
 
 ## What this stack is for
 * For getting acquainted with FPP in a segregated, sandbox environment

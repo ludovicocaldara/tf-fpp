@@ -61,16 +61,11 @@ variable "ssh_public_key" {
 
 variable "resId" {
   description = "Reservations in livelab have a specific identifier. The green button will override this variable with that identifier."
-  default = "LL000"
-}
-
-variable "ociUserPassword" {
-  description = "Not sure how this is specified/used..."
-  default = ""
+  default = "1234"
 }
 
 variable "resUserPublicKey" {
-  description = "LiveLab users will upload their public SSH key, this is what will be used to give them access as opc."
+  description = "LiveLab users will upload their public SSH key, this is what will be used to give them access as opc. For github users, this might be an additional public key for access as opc"
   default = ""
 }
 
