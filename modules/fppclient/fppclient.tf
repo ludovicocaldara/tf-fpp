@@ -61,9 +61,17 @@ locals {
 data "oci_core_images" "vm_images" {
     compartment_id             = var.compartment_id
     operating_system           = "Oracle Linux"
+    # if you change the version, don't forget the regex down here
     operating_system_version   = "7.9"
     sort_by                    = "TIMECREATED"
     sort_order                 = "DESC"
+    filter  {
+      # this regex is necessary because since 7.9 there is also the shape 7.9-Gen2-GPU which clashes with the classic images...
+      name = "display_name"
+      values = ["Oracle-Linux-7.9-\\d{4}.*"]
+      regex = true
+    }
+
 }
 
 
