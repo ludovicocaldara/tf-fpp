@@ -71,7 +71,6 @@ data "oci_core_images" "vm_images" {
     values = ["Oracle-Linux-7.9-\\d{4}.*"]
     regex = true
   }
-    }
 }
 
 
