@@ -66,12 +66,12 @@ data "oci_core_images" "vm_images" {
   sort_by                    = "TIMECREATED"
   sort_order                 = "DESC"
   filter  {
-      # this regex is necessary because since 7.9 there is also the shape 7.9-Gen2-GPU which clashes with the classic images...
-      name = "display_name"
-      values = ["Oracle-Linux-7.9-\\d{4}.*"]
-      regex = true
+    # this regex is necessary because since 7.9 there is also the shape 7.9-Gen2-GPU which clashes with the classic images...
+    name = "display_name"
+    values = ["Oracle-Linux-7.9-\\d{4}.*"]
+    regex = true
   }
-
+    }
 }
 
 
