@@ -104,10 +104,10 @@ resource "oci_core_instance" "fppc_vm" {
         boot_volume_size_in_gbs = var.boot_volume_size_in_gbs
     }
 
-    shape_config {
-        ocpus = var.instance_ocpus
-        memory_in_gbs = var.instance_memgb
-    }
+    #shape_config {
+    #    ocpus = var.instance_ocpus
+    #    memory_in_gbs = var.instance_memgb
+    #}
 
     create_vnic_details {
         assign_public_ip = true

@@ -22,7 +22,7 @@ variable "vm_user" {
 
 variable "vm_shape" {
     description = "OCI Compute VM shape. Flex is the new default and it's pretty nice :-). Beware of your quotas, credits and limits if you plan to change it."
-    default = "VM.Standard.E3.Flex"
+    default = "VM.Standard2.2"
 }
 
 variable "instance_ocpus" {
