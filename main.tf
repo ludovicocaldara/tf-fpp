@@ -51,6 +51,16 @@ locals {
 }
 
 
+
+# -----------------------------------------------------
+# Create a dynamic TLS key for remote-exec provisioning
+# -----------------------------------------------------
+resource "tls_private_key" "provisioner_keypair" {
+  algorithm   = "RSA"
+  rsa_bits = "4096"
+}
+
+
 # -----------------------------------------------------
 # Instantiate the FPP Client (OCI Compute) through the module.
 # 
@@ -62,8 +72,8 @@ module "fppclient" {
   availability_domain   = var.availability_domain_name
   compartment_id        = var.compartment_ocid
   subnet_id             = local.public_subnet_id
-  ssh_public_key        = var.ssh_public_key
-  ssh_private_key       = var.ssh_private_key
+  ssh_public_key        = tls_private_key.provisioner_keypair.public_key_openssh
+  ssh_private_key       = tls_private_key.provisioner_keypair.private_key_pem
   subnet_cidr           = var.subnet_cidr
   vcn_cidr              = var.vcn_cidr
   resId                 = var.resId
@@ -82,8 +92,8 @@ module "fppserver" {
   availability_domain   = var.availability_domain_name
   compartment_id        = var.compartment_ocid
   subnet_id             = local.public_subnet_id
-  ssh_public_key        = var.ssh_public_key
-  ssh_private_key        = var.ssh_private_key
+  ssh_public_key        = tls_private_key.provisioner_keypair.public_key_openssh
+  ssh_private_key       = tls_private_key.provisioner_keypair.private_key_pem
   subnet_cidr           = var.subnet_cidr
   vcn_cidr              = var.vcn_cidr
   resId                 = var.resId

@@ -34,6 +34,6 @@ yum install -y git rlwrap oracle-database-preinstall-19c.x86_64
 
 ###########################
 # stop the firewall.
-# compute OL7.8 uses firewalld, not iptables
+# compute OL7.9 uses firewalld, not iptables
 systemctl stop firewalld
 systemctl disable firewalld
