@@ -55,15 +55,23 @@ locals {
 
 
 # ---------------------------------------------------------
-# Data: by ordering available OL7.8 VM images by TIMECREATED DESC, 
+# Data: by ordering available OL7.9 VM images by TIMECREATED DESC, 
 # I get the last image build in vm_images[0]. I use it to provision the oci_core_instance
 # ---------------------------------------------------------
 data "oci_core_images" "vm_images" {
     compartment_id             = var.compartment_id
     operating_system           = "Oracle Linux"
-    operating_system_version   = "7.8"
+    # if you change the version, don't forget the regex down here
+    operating_system_version   = "7.9"
     sort_by                    = "TIMECREATED"
     sort_order                 = "DESC"
+    filter  {
+      # this regex is necessary because since 7.9 there is also the shape 7.9-Gen2-GPU which clashes with the classic images...
+      name = "display_name"
+      values = ["Oracle-Linux-7.9-\\d{4}.*"]
+      regex = true
+    }
+
 }
 
 
@@ -83,7 +91,7 @@ data "oci_core_volume_attachments" "fppc_disk_device" {
 
 # ---------------------------------------------------------
 # Resource: Instance creation
-# It uses the last build of 7.8, Flex shape, CPU and RAM defined in the variables.
+# It uses the last build of 7.9, Flex shape, CPU and RAM defined in the variables.
 # ---------------------------------------------------------
 resource "oci_core_instance" "fppc_vm" {
     availability_domain = var.availability_domain
