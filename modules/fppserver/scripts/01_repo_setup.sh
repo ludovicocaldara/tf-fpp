@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved
+# Licensed under the Universal Permissive License v 1.0 as shown at http://oss.oracle.com/licenses/upl.
 
 regionId=$(curl -s http://169.254.169.254/opc/v1/instance/ | grep regionIdentifier | awk -F: '{print $2}' | awk -F'"' '{print $2}')
 
