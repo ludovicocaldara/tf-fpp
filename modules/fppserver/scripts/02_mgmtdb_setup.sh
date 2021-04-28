@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved
+# Licensed under the Universal Permissive License v 1.0 as shown at http://oss.oracle.com/licenses/upl.
+
 GI_HOME=$(cat /etc/oracle/olr.loc 2>/dev/null | grep crs_home | awk -F= '{print $2}')
 
 export ORACLE_HOME=$GI_HOME
