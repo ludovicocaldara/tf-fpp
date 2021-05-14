@@ -3,7 +3,7 @@
 ## What this stack is for
 * For getting acquainted with FPP in a segregated, sandbox environment
 * For operating uniquely on the target provisioned by this lab
-* **Do not use FPP in the Cloud to patch your Cloud Database Services, this is not supported!**
+* **Do not use this Terraform deployment of FPP in the Cloud to patch your Cloud Database Services, this is not supported!**
 
 There is a Vagrant project for FPP to let you play in a virtual environment on-premises, it works with Virtualbox or KVM.
 * [Official OracleFPP Vagrant project ](https://github.com/oracle/vagrant-projects/tree/master/OracleFPP)
@@ -13,7 +13,7 @@ If you do not have the capacity on-premises and you would like to test it in the
 
 
 ## What this stack is NOT for
-* **Do not use FPP in the Cloud to patch your Cloud Database Services, this is not supported!**
+* **Do not use this Terraform deployment of FPP in the Cloud to patch your Cloud Database Services, this is not supported!**
 * Do not use it to provision a production FPP in the Cloud, the current FPP versions (19c, 21c) are meant to be set up and used on-premises only. This stack is an exception provided for educational purposes only.
 
 ## Description
