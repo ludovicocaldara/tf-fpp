@@ -25,7 +25,24 @@ usermod -a -G asmadmin oracle
 # Partition the ASM disk
 # the variables ipv4, port, attachment_type and iqn are replaced by the terraform templating engine
 deviceByPath=/dev/disk/by-path/ip-${ipv4}:${port}-${attachment_type}-${iqn}-lun-1 
-device=$(readlink -f $deviceByPath)
+device=$(readlink -e $deviceByPath)
+
+# A few steps to add the iscsi volume in case the ocid.service omits the discover.
+if [ $? -ne 0 ] ; then
+  sudo iscsiadm -m node -o new -T ${iqn} -p ${ipv4}:${port}
+  sleep 1
+  sudo iscsiadm -m node -o update -T ${iqn} -n node.startup -v automatic
+  sleep 1
+  sudo iscsiadm -m node -T ${iqn} -p ${ipv4}:${port} -l
+  sleep 2
+fi
+
+device=$(readlink -e $deviceByPath)
+if [ $? -ne 0 ] ; then
+  echo "Cannot add device through iscsiadm"
+  exit 1
+fi
+
 
 parted -s -a optimal $device mklabel gpt -- mkpart primary 2048s 100%
 
