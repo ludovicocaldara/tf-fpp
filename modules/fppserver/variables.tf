@@ -84,7 +84,7 @@ variable "db_disk_redundancy" {
 
 variable "db_version" {
   description = "Version for the DB system. This lab supports 19c, don't use 21c yet."
-  default = "19.10.0.0"
+  default = "19.0.0.0"
 }
 
 variable "data_storage_size_in_gb" {
