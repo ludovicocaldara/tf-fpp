@@ -7,6 +7,7 @@ GI_HOME=$(cat /etc/oracle/olr.loc 2>/dev/null | grep crs_home | awk -F= '{print 
 
 export ORACLE_HOME=$GI_HOME
 
+unset TMOUT
 $ORACLE_HOME/bin/mgmtca createGIMRContainer -storageDiskLocation +DATA
 
 
